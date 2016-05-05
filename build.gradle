@@ -1,19 +1,27 @@
 group 'com.ramiz'
 version '1.0-SNAPSHOT'
 
-
 allprojects {
+
     apply plugin: 'scala'
+    sourceCompatibility = 1.6
+
+    repositories {
+        mavenCentral()
+    }
 
     ext {
         guavaVersion = "19.0"
-        sparkVersion = "1.0.0"
+        sparkVersion = "1.4.1"
+        scoptVersion = "3.4.0"
+        sparkSQLVersion = "1.6.1"
     }
 
     dependencies {
-        compile "org.apache.spark:spark-core_2.10:${sparkVersion}"
+        compile "org.apache.spark:spark-core_2.11:${sparkVersion}"
         compile "com.google.guava:guava:${guavaVersion}"
+        compile "com.github.scopt:scopt_2.11:${scoptVersion}"
+        compile "org.apache.spark:spark-sql_2.11:${sparkSQLVersion}"
 
     }
-
 }
