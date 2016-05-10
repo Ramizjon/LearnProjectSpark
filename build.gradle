@@ -1,6 +1,3 @@
-
-
-
 allprojects {
     project.group = 'com.ramiz'
 
@@ -29,6 +26,10 @@ allprojects {
         compile "org.scalacheck:scalacheck_${scalaLibVersion}:${scalacheckVersion}"
         compile "org.apache.hadoop:hadoop-core:${hadoopCoreVersion}"
         compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
+    }
+
+     task wrapper(type: Wrapper) {
+        gradleVersion = '2.0'
     }
 
     repositories {
