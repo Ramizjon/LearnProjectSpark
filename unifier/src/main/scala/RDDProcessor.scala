@@ -15,7 +15,7 @@ class RDDProcessor {
 
       val transformedRDD = input
             .map(line => convertor.convert(line))
-            .flatMap(umc => umc)
+            .flatMap(y => y)
 
       val umcDF = transformedRDD.toDF()
 

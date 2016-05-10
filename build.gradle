@@ -1,27 +1,40 @@
-group 'com.ramiz'
-version '1.0-SNAPSHOT'
+
+
 
 allprojects {
+    project.group = 'com.ramiz'
 
     apply plugin: 'scala'
-    sourceCompatibility = 1.6
+    apply plugin: 'idea'
 
-    repositories {
-        mavenCentral()
-    }
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
     ext {
-        guavaVersion = "19.0"
-        sparkVersion = "1.4.1"
+        scalaVersion = "2.11.7"
+        scalaLibVersion = "2.11"
+        sparkVersion = "1.6.1"
         scoptVersion = "3.4.0"
         sparkSQLVersion = "1.6.1"
+        scalacheckVersion = "1.13.1"
+        hadoopCoreVersion = "1.2.1"
+        hadoopClientVersion = "2.7.2"
     }
 
     dependencies {
-        compile "org.apache.spark:spark-core_2.11:${sparkVersion}"
-        compile "com.google.guava:guava:${guavaVersion}"
-        compile "com.github.scopt:scopt_2.11:${scoptVersion}"
-        compile "org.apache.spark:spark-sql_2.11:${sparkSQLVersion}"
+        compile "org.scala-lang:scala-library:${scalaVersion}"
+        compile "org.apache.spark:spark-core_${scalaLibVersion}:${sparkVersion}"
+        compile "com.github.scopt:scopt_${scalaLibVersion}:${scoptVersion}"
+        compile "org.apache.spark:spark-sql_${scalaLibVersion}:${sparkSQLVersion}"
+        compile "org.scalacheck:scalacheck_${scalaLibVersion}:${scalacheckVersion}"
+        compile "org.apache.hadoop:hadoop-core:${hadoopCoreVersion}"
+        compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
+    }
 
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://repository.cloudera.com/artifactory/cloudera-repos/"
+        }
     }
 }

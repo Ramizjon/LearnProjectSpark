@@ -1,7 +1,6 @@
 
-object Main {
 
-  def main(args: Array[String]): Unit = {
 
-  }
+object Main extends App {
+
 }

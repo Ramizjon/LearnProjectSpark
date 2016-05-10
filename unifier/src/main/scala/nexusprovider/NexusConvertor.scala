@@ -4,6 +4,7 @@ import nexusprovider.Convertor
 import utils.UserModCommand
 
 
+@transient
 object NexusConvertor extends Convertor {
 
   def convert (text: String): List[UserModCommand] = {
