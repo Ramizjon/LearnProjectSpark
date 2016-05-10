@@ -15,7 +15,6 @@ build
 **/*.sh
 **/*.ipr
 **/*.iws
-**/gradle-wrapper.properties
 gradlew.bat
 
  #Eclipse Core
