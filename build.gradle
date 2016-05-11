@@ -16,6 +16,8 @@ allprojects {
         scalacheckVersion = "1.13.1"
         hadoopCoreVersion = "1.2.1"
         hadoopClientVersion = "2.7.2"
+        scalaTestVersion = "3.0.0-M16-SNAP5"
+        sparkTestingBaseVersion = "0.3.3"
     }
 
     dependencies {
@@ -23,10 +25,14 @@ allprojects {
         compile "org.apache.spark:spark-core_${scalaLibVersion}:${sparkVersion}"
         compile "com.github.scopt:scopt_${scalaLibVersion}:${scoptVersion}"
         compile "org.apache.spark:spark-sql_${scalaLibVersion}:${sparkSQLVersion}"
+        compile "org.scalatest:scalatest_${scalaLibVersion}:${scalaTestVersion}"
         compile "org.scalacheck:scalacheck_${scalaLibVersion}:${scalacheckVersion}"
-        compile "org.apache.hadoop:hadoop-core:${hadoopCoreVersion}"
-        compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
+        compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
+        //compile "org.apache.hadoop:hadoop-core:${hadoopCoreVersion}"
+        compile ("org.apache.hadoop:hadoop-client:${hadoopClientVersion}")
     }
+
+
 
      task wrapper(type: Wrapper) {
         gradleVersion = '2.0'

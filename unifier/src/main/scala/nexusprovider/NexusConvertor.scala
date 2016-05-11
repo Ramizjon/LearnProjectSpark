@@ -1,7 +1,6 @@
 package nexusconvertor
 
-import utils.UserModCommand
-import _root_.Convertor
+import utils.{Convertor, UserModCommand}
 
 
 @transient

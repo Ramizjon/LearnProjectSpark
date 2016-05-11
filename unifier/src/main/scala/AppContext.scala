@@ -1,19 +1,23 @@
 import facebookprovider.FacebookConvertor
 import nexusconvertor.NexusConvertor
 import org.apache.spark.{SparkConf, SparkContext}
+import utils.Convertor
 
 object AppContext {
 
-   case class RDDProcessorImpl(providerType: String) extends RDDProcessor {
+   case class RDDProcessorImpl(providerType: String, sparkContext: SparkContext) extends RDDProcessor {
 
      override def getSparkContext(): SparkContext = {
-       val conf = new SparkConf().setAppName(s"$providerType-unifier")
-       return new SparkContext(conf)
+        return sparkContext
      }
 
-     def getConvertor():Convertor = providerType match {
-       case "nexus" => return NexusConvertor
-       case "facebook" => return FacebookConvertor
+     def getConvertor():Convertor = {
+       return convertorMatcher(providerType)
+     }
+
+     def convertorMatcher(x: String): Convertor = x match {
+       case "nexus" =>  NexusConvertor
+       case "facebook" =>  FacebookConvertor
      }
    }
 

@@ -1,6 +1,5 @@
 import net.sf.cglib.proxy.NoOp
-import org.apache.spark.SparkContext
-import _root_.AppContext
+import org.apache.spark.{SparkConf, SparkContext}
 
 object Main extends App {
 
@@ -20,10 +19,15 @@ object Main extends App {
 
   parser.parse(args, AppConfig()) match {
     case Some(config) => {
-      val facebookContextProcessor = AppContext.RDDProcessorImpl("facebook")
+      val conf = new SparkConf()
+        .setAppName("data unifier")
+        .setMaster("local")
+      val sparkContext = new SparkContext(conf)
+
+      val facebookContextProcessor = new AppContext.RDDProcessorImpl("facebook", sparkContext)
       facebookContextProcessor.processRDD(config.facebookProviderInputPath,config.outputPath)
 
-      val nexusContextProcessor = AppContext.RDDProcessorImpl("nexus")
+      val nexusContextProcessor = new AppContext.RDDProcessorImpl("nexus", sparkContext)
       nexusContextProcessor.processRDD(config.nexusProviderInputPath, config.outputPath)
     }
     case None => {
@@ -31,7 +35,5 @@ object Main extends App {
       System.exit(1)
     }
   }
-
-
 
 }

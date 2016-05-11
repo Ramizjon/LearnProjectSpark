@@ -1,7 +1,6 @@
 package facebookprovider
 
-import utils.UserModCommand
-import _root_.Convertor
+import utils.{Convertor, UserModCommand}
 
 
 @transient
