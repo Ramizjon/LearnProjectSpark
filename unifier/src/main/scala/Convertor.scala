@@ -1,5 +1,3 @@
-package nexusprovider
-
 import utils.UserModCommand
 
 trait Convertor {
