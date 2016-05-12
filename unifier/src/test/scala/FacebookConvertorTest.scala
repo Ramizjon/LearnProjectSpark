@@ -1,26 +1,27 @@
 import facebookprovider.FacebookConvertor
-import org.scalacheck._
-import collection.Map
-import org.scalacheck.Gen
 import org.scalacheck.Prop.forAll
+import org.scalacheck.{Gen, _}
 import utils.UserModCommand
+
+import scala.collection.Map
 
 object FacebookConvertorTest extends Properties("UserModCommand") {
 
   val strGen = (n: Int) => Gen.listOfN(n, Gen.alphaChar).map(_.mkString)
+  val stringLength = 6
 
   val pathGen = for {
-    c1 <- strGen(6)
-    c2 <- strGen(6)
-    c3 <- strGen(6)
-    c4 <- strGen(6)
+    c1 <- strGen(stringLength)
+    c2 <- strGen(stringLength)
+    c3 <- strGen(stringLength)
+    c4 <- strGen(stringLength)
   } yield List(c1,c2,c3,c4).mkString("/")
 
-  def mapGen (timestamp: String) = for {
-    k1 <- strGen(4)
-    k2 <- strGen(4)
-    k3 <- strGen(4)
-    v1 <- strGen(4)
+  def mapGen (timestamp: String): Gen[scala.Predef.Map[String,String]] = for {
+    k1 <- strGen(stringLength)
+    k2 <- strGen(stringLength)
+    k3 <- strGen(stringLength)
+    v1 <- strGen(stringLength)
   } yield scala.Predef.Map (k1->timestamp,k2->timestamp,k3->timestamp)
 
   val umcsGens: Gen[(List[(UserModCommand, Map[String, String])],String)] =
@@ -46,9 +47,9 @@ object FacebookConvertorTest extends Properties("UserModCommand") {
   property("Convert strings to umcs") = forAll(umcsGens) {
     umcsGens =>
 
-      val userId1 = umcsGens._1(0)._1.userId
-      val segments1 = umcsGens._1(0)._2.keys.mkString(",")
-      val segments2 = umcsGens._1(1)._2.keys.mkString(",")
+      val userId1 = umcsGens._1.head._1.userId
+      val segments1 = umcsGens._1.head._2.keys.mkString(",")
+      val segments2 = umcsGens._1.head._2.keys.mkString(",")
 
       val complexInput = s"$userId1/$segments1/$segments2::${umcsGens._2}"
 

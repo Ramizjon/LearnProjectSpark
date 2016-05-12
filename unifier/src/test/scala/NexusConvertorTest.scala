@@ -1,9 +1,9 @@
 import nexusconvertor.NexusConvertor
-import org.scalacheck._
-import collection.Map
-import org.scalacheck.Gen
 import org.scalacheck.Prop.forAll
+import org.scalacheck.{Gen, _}
 import utils.UserModCommand
+
+import scala.collection.Map
 
 object NexusConvertorTest extends Properties("UserModCommand") {
 

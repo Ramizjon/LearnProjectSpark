@@ -3,7 +3,6 @@ package nexusconvertor
 import utils.{Convertor, UserModCommand}
 
 
-@transient
 object NexusConvertor extends Convertor {
 
   def convert (text: String): List[UserModCommand] = {
@@ -17,7 +16,7 @@ object NexusConvertor extends Convertor {
 
     val userModCommand = new UserModCommand(arr(1), arr(2), segmentsMap)
 
-    return userModCommand :: Nil
+    userModCommand :: Nil
 
   }
 

@@ -3,7 +3,6 @@ package facebookprovider
 import utils.{Convertor, UserModCommand}
 
 
-@transient
 object FacebookConvertor extends Convertor {
 
   override def convert(text: String): List[UserModCommand] = {
@@ -18,7 +17,7 @@ object FacebookConvertor extends Convertor {
 
     val segmentsCombinedList = structureElements(1).split(",")->"add" :: structureElements(2).split(",")->"remove" :: Nil
 
-    return segmentsCombinedList.map( t => {
+    segmentsCombinedList.map( t => {
       val segMap = t._1.map {
         elem => (elem, timestamp)
       }.toMap

@@ -5,8 +5,9 @@ import org.apache.spark.sql.SQLContext
 import utils.{Convertor, UserModCommand}
 
 abstract class RDDProcessor extends Serializable{
-  val sc = getSparkContext()
-  val convertor = getConvertor()
+
+  val sc: SparkContext
+  val convertor: Convertor
 
   def processRDD(inputPath: String, outputPath: String): RDD[UserModCommand] = {
     val sqlContext = new SQLContext(sc)
@@ -17,15 +18,14 @@ abstract class RDDProcessor extends Serializable{
 
     val umcDF = transformedRDD.toDF()
     umcDF.write.parquet(outputPath)
-    return transformedRDD
+
+    transformedRDD
   }
 
   def transformRDD(input: RDD[String]): RDD[UserModCommand] = {
-    return input
+     input
       .map(line => convertor.convert(line))
       .flatMap(y => y)
   }
 
-  def getSparkContext(): SparkContext
-  def getConvertor(): Convertor
 }

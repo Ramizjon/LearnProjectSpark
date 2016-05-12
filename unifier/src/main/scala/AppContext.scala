@@ -7,13 +7,8 @@ object AppContext {
 
    case class RDDProcessorImpl(providerType: String, sparkContext: SparkContext) extends RDDProcessor {
 
-     override def getSparkContext(): SparkContext = {
-        return sparkContext
-     }
-
-     def getConvertor():Convertor = {
-       return convertorMatcher(providerType)
-     }
+     override lazy val sc = sparkContext
+     override lazy val convertor = convertorMatcher(providerType)
 
      def convertorMatcher(x: String): Convertor = x match {
        case "nexus" =>  NexusConvertor
