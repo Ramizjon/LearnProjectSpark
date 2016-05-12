@@ -39,7 +39,7 @@ apply plugin: 'scalaStyle'
             hadoopClientVersion = "2.7.2"
             scalaTestVersion = "3.0.0-M16-SNAP5"
             sparkTestingBaseVersion = "0.3.3"
-            scalaStyleVersion = "0.8.3"
+            scalaStyleVersion = "0.8.2"
         }
 
         dependencies {
@@ -49,7 +49,7 @@ apply plugin: 'scalaStyle'
             compile "org.apache.spark:spark-sql_${scalaLibVersion}:${sparkSQLVersion}"
             compile "org.scalatest:scalatest_${scalaLibVersion}:${scalaTestVersion}"
             compile "org.scalacheck:scalacheck_${scalaLibVersion}:${scalacheckVersion}"
-            compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
+            //compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
             compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
             compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
         }
