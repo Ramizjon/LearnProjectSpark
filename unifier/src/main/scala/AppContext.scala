@@ -1,12 +1,15 @@
+import java.io.Serializable
+
 import facebookprovider.FacebookConvertor
-import nexusconvertor.NexusConvertor
+import nexusprovider.NexusConvertor
 import org.apache.spark.{SparkConf, SparkContext}
 import utils.Convertor
 
-object AppContext {
+object AppContext extends Serializable {
 
-   case class RDDProcessorImpl(providerType: String, sparkContext: SparkContext) extends RDDProcessor {
+    class RDDProcessorImpl(providerType: String, sparkContext: SparkContext) extends RDDProcessor {
 
+     @transient
      override lazy val sc = sparkContext
      override lazy val convertor = convertorMatcher(providerType)
 

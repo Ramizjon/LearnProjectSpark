@@ -1,4 +1,4 @@
-package nexusconvertor
+package nexusprovider
 
 import utils.{Convertor, UserModCommand}
 

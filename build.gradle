@@ -1,60 +1,82 @@
-
 apply plugin: 'scalaStyle'
 
-    buildscript {
-        repositories {
-            jcenter()
-        }
+buildscript {
+    repositories {
+        jcenter()
+    }
 
-        dependencies {
-            classpath 'org.github.ngbinh.scalastyle:gradle-scalastyle-plugin_2.11:0.8.2'
+    dependencies {
+        classpath 'org.github.ngbinh.scalastyle:gradle-scalastyle-plugin_2.11:0.8.2'
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+    }
+}
+
+
+scalaStyle {
+    configLocation = "scalastyle_config.xml"
+    includeTestSourceDirectory = true
+    source = "src/main/scala"
+    testSource = "src/test/scala"
+    verbose = false
+}
+
+allprojects {
+    project.group = 'com.ramiz'
+
+    apply plugin: 'scala'
+    apply plugin: 'idea'
+    apply plugin: 'eu.appsatori.fatjar'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    configurations {
+        provided
+        compile.extendsFrom provided
+    }
+
+    idea {
+        module.iml.withXml {
+            def node = it.asNode()
+            def content = node.component.find { it.'@name' == 'NewModuleRootManager' }.content[0]
+            content.sourceFolder.each { sourceFolder ->
+                if (sourceFolder.@url?.endsWith('/resources')) {
+                    sourceFolder.attributes().with {
+                        boolean isTestSource = (remove('isTestSource') == 'true')
+                        put('type', isTestSource ? 'java-test-resource' : 'java-resource')
+                    }
+                }
+            }
         }
     }
 
-    scalaStyle {
-        configLocation = "scalastyle_config.xml"
-        includeTestSourceDirectory = true
-        source = "src/main/scala"
-        testSource = "src/test/scala"
-        verbose = false
+
+    ext {
+        scalaVersion = "2.10.6"
+        scalaLibVersion = "2.10"
+        sparkVersion = "1.5.0"
+        scoptVersion = "3.4.0"
+        sparkSQLVersion = "1.5.0"
+        scalacheckVersion = "1.13.1"
+        hadoopClientVersion = "2.6.0"
+        scalaTestVersion = "3.0.0-M16-SNAP6"
+        sparkTestingBaseVersion = "1.4.0_1.4.1_0.1.2"
+        scalaStyleVersion = "0.8.2"
     }
 
-    allprojects {
-        project.group = 'com.ramiz'
+    dependencies {
+        compile "org.scala-lang:scala-library:${scalaVersion}"
+        compile "org.apache.spark:spark-core_${scalaLibVersion}:${sparkVersion}"
+        compile "com.github.scopt:scopt_${scalaLibVersion}:${scoptVersion}"
+        compile "org.apache.spark:spark-sql_${scalaLibVersion}:${sparkSQLVersion}"
+        compile "org.scalatest:scalatest_${scalaLibVersion}:${scalaTestVersion}"
+        compile "org.scalacheck:scalacheck_${scalaLibVersion}:${scalacheckVersion}"
+        //compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
+        compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
+        compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
+    }
 
-        apply plugin: 'scala'
-        apply plugin: 'idea'
-
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-
-
-        ext {
-            scalaVersion = "2.11.7"
-            scalaLibVersion = "2.11"
-            sparkVersion = "1.6.1"
-            scoptVersion = "3.4.0"
-            sparkSQLVersion = "1.6.1"
-            scalacheckVersion = "1.13.1"
-            hadoopClientVersion = "2.7.2"
-            scalaTestVersion = "3.0.0-M16-SNAP5"
-            sparkTestingBaseVersion = "0.3.3"
-            scalaStyleVersion = "0.8.2"
-        }
-
-        dependencies {
-            compile "org.scala-lang:scala-library:${scalaVersion}"
-            compile "org.apache.spark:spark-core_${scalaLibVersion}:${sparkVersion}"
-            compile "com.github.scopt:scopt_${scalaLibVersion}:${scoptVersion}"
-            compile "org.apache.spark:spark-sql_${scalaLibVersion}:${sparkSQLVersion}"
-            compile "org.scalatest:scalatest_${scalaLibVersion}:${scalaTestVersion}"
-            compile "org.scalacheck:scalacheck_${scalaLibVersion}:${scalacheckVersion}"
-            //compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
-            compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
-            compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
-        }
-
-     task wrapper(type: Wrapper) {
+    task wrapper(type: Wrapper) {
         gradleVersion = '2.0'
     }
 

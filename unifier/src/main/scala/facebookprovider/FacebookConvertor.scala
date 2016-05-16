@@ -15,7 +15,8 @@ object FacebookConvertor extends Convertor {
     val pathArray = outputPath.split("/")
     val timestamp = s"${pathArray(pathArray.length - 3)}T${pathArray(pathArray.length - 2)}:00:00"
 
-    val segmentsCombinedList = structureElements(1).split(",")->"add" :: structureElements(2).split(",")->"remove" :: Nil
+    val segmentsCombinedList = structureElements(1).split(",")->"add" ::
+      structureElements(2).split(",")->"remove" :: Nil
 
     segmentsCombinedList.map( t => {
       val segMap = t._1.map {

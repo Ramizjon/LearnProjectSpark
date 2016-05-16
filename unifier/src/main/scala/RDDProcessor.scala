@@ -4,9 +4,9 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SQLContext
 import utils.{Convertor, UserModCommand}
 
-abstract class RDDProcessor extends Serializable{
+abstract class RDDProcessor extends Serializable {
 
-  val sc: SparkContext
+  @transient val sc: SparkContext
   val convertor: Convertor
 
   def processRDD(inputPath: String, outputPath: String): RDD[UserModCommand] = {
@@ -14,7 +14,8 @@ abstract class RDDProcessor extends Serializable{
     import sqlContext.implicits._
 
     val input = sc.textFile(inputPath)
-    val transformedRDD = transformRDD(input)
+    val conv = convertor
+    val transformedRDD = transformRDD(input,conv)
 
     val umcDF = transformedRDD.toDF()
     umcDF.write.parquet(outputPath)
@@ -22,10 +23,9 @@ abstract class RDDProcessor extends Serializable{
     transformedRDD
   }
 
-  def transformRDD(input: RDD[String]): RDD[UserModCommand] = {
+  def transformRDD(input: RDD[String], conv: Convertor): RDD[UserModCommand] = {
      input
-      .map(line => convertor.convert(line))
+      .map(line => conv.convert(line))
       .flatMap(y => y)
   }
-
 }

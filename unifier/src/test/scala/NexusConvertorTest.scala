@@ -1,4 +1,4 @@
-import nexusconvertor.NexusConvertor
+import nexusprovider.NexusConvertor
 import org.scalacheck.Prop.forAll
 import org.scalacheck.{Gen, _}
 import utils.UserModCommand

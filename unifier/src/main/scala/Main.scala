@@ -3,18 +3,18 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 object Main extends App {
 
-  case class AppConfig (
-     facebookProviderInputPath: String = "",
-     nexusProviderInputPath: String = "",
-     outputPath: String = "")
+  case class AppConfig(
+                        facebookProviderInputPath: String = "",
+                        nexusProviderInputPath: String = "",
+                        outputPath: String = "")
 
   val parser = new scopt.OptionParser[AppConfig]("unifier") {
     opt[String]('f', "facebook").required().text("facebook input path is required")
-      .action { (x, c) => c.copy(facebookProviderInputPath = x)}
+      .action { (x, c) => c.copy(facebookProviderInputPath = x) }
     opt[String]('n', "nexus").required().text("nexus input path is required")
-      .action { (x, c) => c.copy(nexusProviderInputPath = x)}
+      .action { (x, c) => c.copy(nexusProviderInputPath = x) }
     opt[String]('o', "output").required().text("output path is required")
-      .action { (x, c) => c.copy(outputPath = x)}
+      .action { (x, c) => c.copy(outputPath = x) }
   }
 
   parser.parse(args, AppConfig()) match {
@@ -25,10 +25,12 @@ object Main extends App {
       val sparkContext = new SparkContext(conf)
 
       val facebookContextProcessor = new AppContext.RDDProcessorImpl("facebook", sparkContext)
-      facebookContextProcessor.processRDD(config.facebookProviderInputPath,config.outputPath)
+      facebookContextProcessor.processRDD(config.facebookProviderInputPath,
+        config.outputPath + "/facebook")
 
       val nexusContextProcessor = new AppContext.RDDProcessorImpl("nexus", sparkContext)
-      nexusContextProcessor.processRDD(config.nexusProviderInputPath, config.outputPath)
+      nexusContextProcessor.processRDD(config.nexusProviderInputPath,
+        config.outputPath + "/nexus")
     }
     case None => {
       println("Invalid input")

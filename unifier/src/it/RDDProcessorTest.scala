@@ -1,5 +1,6 @@
 import com.holdenkarau.spark.testing.SharedSparkContext
-import nexusconvertor.NexusConvertor
+import nexusprovider.NexusConvertor
+
 import org.scalatest.{Matchers, GivenWhenThen, FlatSpec}
 
 class RDDProcessorTest extends FlatSpec with GivenWhenThen with SharedSparkContext with Matchers {
@@ -16,7 +17,8 @@ class RDDProcessorTest extends FlatSpec with GivenWhenThen with SharedSparkConte
       "09:12:2016,7,delete,drag,drop")
 
     When("Transforming data line by line with RDDProcessor")
-    val actualResult = rddProcessor.transformRDD(sc.parallelize(lines)).collect toList
+    val actualResult = rddProcessor.transformRDD(sc.parallelize(lines),
+      NexusConvertor).collect toList
 
     Then("Data is transformed into UMC's List")
     actualResult should equal(expected)

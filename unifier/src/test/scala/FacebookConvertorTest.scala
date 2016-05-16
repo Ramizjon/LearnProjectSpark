@@ -46,7 +46,6 @@ object FacebookConvertorTest extends Properties("UserModCommand") {
 
   property("Convert strings to umcs") = forAll(umcsGens) {
     umcsGens =>
-
       val userId1 = umcsGens._1.head._1.userId
       val segments1 = umcsGens._1.head._2.keys.mkString(",")
       val segments2 = umcsGens._1.head._2.keys.mkString(",")
