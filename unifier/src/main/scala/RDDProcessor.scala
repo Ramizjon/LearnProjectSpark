@@ -3,9 +3,8 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SQLContext
 import utils.{Convertor, UserModCommand}
 
-abstract class RDDProcessor extends Serializable {
+abstract class RDDProcessor {
 
-  @transient
   val sc: SparkContext
   val convertor: Convertor
 
@@ -25,7 +24,7 @@ abstract class RDDProcessor extends Serializable {
 
   def transformRDD(input: RDD[String], conv: Convertor): RDD[UserModCommand] = {
      input
-      .map(line => conv.convert(line))
-      .flatMap(y => y)
+       .map(line => conv.convert(line))
+       .flatMap(identity)
   }
 }

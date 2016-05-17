@@ -6,11 +6,14 @@ import org.apache.spark.{SparkConf, SparkContext}
 import utils.Convertor
 
 
-object AppContext extends Serializable {
+object AppContext {
+
+  case class AppConfig(
+                        facebookProviderInputPath: String = "",
+                        nexusProviderInputPath: String = "",
+                        outputPath: String = "")
 
   class RDDProcessorImpl(providerType: String, sparkContext: SparkContext) extends RDDProcessor {
-
-    @transient
     override lazy val sc = sparkContext
     override lazy val convertor = convertorMatcher(providerType)
 
@@ -20,11 +23,20 @@ object AppContext extends Serializable {
     }
   }
 
-  def createSparkContext(): SparkContext = {
+  def runJobs(config: AppConfig): Unit = {
     val conf = new SparkConf()
       .setAppName("data unifier")
       .setMaster("local")
-    new SparkContext(conf)
+    val sparkContext = new SparkContext(conf)
+
+    val params = Seq(config.facebookProviderInputPath -> "facebook",
+      config.nexusProviderInputPath -> "nexus")
+
+    params.foreach { case (k, v) =>
+      new AppContext.RDDProcessorImpl(v, sparkContext).processRDD(k, config.outputPath + "/" + v)
+    }
+
+
   }
 
 }

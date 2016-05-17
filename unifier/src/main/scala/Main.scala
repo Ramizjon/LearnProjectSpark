@@ -1,10 +1,6 @@
+import AppContext.AppConfig
 
 object Main extends App {
-
-  case class AppConfig(
-                        facebookProviderInputPath: String = "",
-                        nexusProviderInputPath: String = "",
-                        outputPath: String = "")
 
   val parser = new scopt.OptionParser[AppConfig]("unifier") {
     opt[String]('f', "facebook").required().text("facebook input path is required")
@@ -17,13 +13,7 @@ object Main extends App {
 
   parser.parse(args, AppConfig()) match {
     case Some(config) => {
-      val sc = AppContext.createSparkContext()
-      val params = Map (config.facebookProviderInputPath -> "facebook",
-        config.nexusProviderInputPath -> "nexus")
-
-      params.foreach{ case (k,v) =>
-          new AppContext.RDDProcessorImpl(v, sc).processRDD(k, config.outputPath + "/" + v)
-      }
+      AppContext.runJobs(config)
     }
     case None => {
       println("Invalid input")
