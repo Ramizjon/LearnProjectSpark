@@ -1,0 +1,8 @@
+language: scala
+
+script: gradle test
+
+notifications: never
+
+scala: 
+- 2.11.7

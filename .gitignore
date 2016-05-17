@@ -11,10 +11,10 @@ build
 .settings
 .classpath
 .idea/
+!.travis.yml
 **/*.sh
 **/*.ipr
 **/*.iws
-**/gradle-wrapper.properties
 gradlew.bat
 
  #Eclipse Core
