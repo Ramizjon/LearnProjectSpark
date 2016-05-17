@@ -1,5 +1,3 @@
-import net.sf.cglib.proxy.NoOp
-import org.apache.spark.{SparkConf, SparkContext}
 
 object Main extends App {
 
@@ -19,18 +17,13 @@ object Main extends App {
 
   parser.parse(args, AppConfig()) match {
     case Some(config) => {
-      val conf = new SparkConf()
-        .setAppName("data unifier")
-        .setMaster("local")
-      val sparkContext = new SparkContext(conf)
+      val sc = AppContext.createSparkContext()
+      val params = Map (config.facebookProviderInputPath -> "facebook",
+        config.nexusProviderInputPath -> "nexus")
 
-      val facebookContextProcessor = new AppContext.RDDProcessorImpl("facebook", sparkContext)
-      facebookContextProcessor.processRDD(config.facebookProviderInputPath,
-        config.outputPath + "/facebook")
-
-      val nexusContextProcessor = new AppContext.RDDProcessorImpl("nexus", sparkContext)
-      nexusContextProcessor.processRDD(config.nexusProviderInputPath,
-        config.outputPath + "/nexus")
+      params.foreach{ case (k,v) =>
+          new AppContext.RDDProcessorImpl(v, sc).processRDD(k, config.outputPath + "/" + v)
+      }
     }
     case None => {
       println("Invalid input")

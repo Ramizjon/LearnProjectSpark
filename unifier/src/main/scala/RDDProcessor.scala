@@ -1,4 +1,3 @@
-
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SQLContext
@@ -6,7 +5,8 @@ import utils.{Convertor, UserModCommand}
 
 abstract class RDDProcessor extends Serializable {
 
-  @transient val sc: SparkContext
+  @transient
+  val sc: SparkContext
   val convertor: Convertor
 
   def processRDD(inputPath: String, outputPath: String): RDD[UserModCommand] = {
