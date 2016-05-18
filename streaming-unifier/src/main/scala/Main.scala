@@ -1,4 +1,4 @@
-import _root_.StreamingAppContext.AppConfig
+import StreamingAppContext.AppConfig
 
 object Main extends App {
 
