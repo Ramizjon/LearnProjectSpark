@@ -15,7 +15,6 @@ build
 **/*.sh
 **/*.ipr
 **/*.iws
-gradlew.bat
 
  #Eclipse Core
  .project
