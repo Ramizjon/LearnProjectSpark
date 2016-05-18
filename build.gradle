@@ -60,7 +60,6 @@ allprojects {
         //compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
         compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
         compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
-        compile "org.apache.hadoop:hadoop-core:1.2.1"
     }
 
     task wrapper(type: Wrapper) {
