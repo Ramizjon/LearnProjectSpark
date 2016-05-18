@@ -6,6 +6,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import utils.Convertor
 
 
+
 object AppContext {
 
   case class AppConfig(
@@ -35,8 +36,5 @@ object AppContext {
     params.foreach { case (k, v) =>
       new AppContext.RDDProcessorImpl(v, sparkContext).processRDD(k, config.outputPath + "/" + v)
     }
-
-
   }
-
 }

@@ -11,7 +11,6 @@ buildscript {
     }
 }
 
-
 scalaStyle {
     configLocation = "scalastyle_config.xml"
     includeTestSourceDirectory = true
@@ -52,6 +51,8 @@ allprojects {
     dependencies {
         compile "org.scala-lang:scala-library:${scalaVersion}"
         compile "org.apache.spark:spark-core_${scalaLibVersion}:${sparkVersion}"
+        compile "org.apache.spark:spark-streaming_${scalaLibVersion}:${sparkVersion}"
+        compile "org.apache.spark:spark-streaming-kafka_${scalaLibVersion}:${sparkVersion}"
         compile "com.github.scopt:scopt_${scalaLibVersion}:${scoptVersion}"
         compile "org.apache.spark:spark-sql_${scalaLibVersion}:${sparkSQLVersion}"
         compile "org.scalatest:scalatest_${scalaLibVersion}:${scalaTestVersion}"
@@ -59,6 +60,7 @@ allprojects {
         //compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
         compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
         compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
+        compile "org.apache.hadoop:hadoop-core:1.2.1"
     }
 
     task wrapper(type: Wrapper) {
