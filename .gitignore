@@ -16,6 +16,5 @@ build
 **/*.ipr
 **/*.iws
 
- #Eclipse Core
- .project
+.project
 /bin/
