@@ -8,7 +8,7 @@ object Main extends App {
     opt[String]('t', "topics").required().text("topics are required")
       .action { (x, c) => c.copy(topics = x) }
     opt[String]('p', "provider-type").required().text("provider type selection is required")
-      .action { (x, c) => c.copy(topics = x) }
+      .action { (x, c) => c.copy(provider_type = x) }
   }
 
   parser.parse(args, AppConfig()) match {
