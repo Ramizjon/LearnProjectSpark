@@ -8,7 +8,7 @@ import kafka.producer.{KeyedMessage, Producer, ProducerConfig}
 object KafkaProducer {
 
   val numEvents = 50
-  val brokers = "localhost:2181"
+  val brokers = "localhost:9092"
   val props = initProperties()
 
 
@@ -26,6 +26,7 @@ object KafkaProducer {
     val outputGenerator = getGenerator(provider_mode)
 
     for (events <- Range(0, numEvents)) {
+      Thread.sleep(1000)
       val message = outputGenerator.generateData()
       val data = new KeyedMessage[String, String](topic, message)
       producer.send(data)

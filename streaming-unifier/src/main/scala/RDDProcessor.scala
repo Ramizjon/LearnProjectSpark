@@ -1,26 +1,40 @@
 import java.util.Properties
 
+import KafkaConfig._
 import kafka.producer.KeyedMessage
 import org.apache.spark.rdd.RDD
-import org.apache.spark.streaming.dstream.InputDStream
-import utils.{Convertor, UserModCommand}
 import org.cloudera.spark.streaming.kafka.KafkaWriter._
+import org.slf4j.LoggerFactory
+import utils.{Convertor, UserModCommand}
 
+trait LogTrait {
+  protected lazy val logger = LoggerFactory.getLogger(getClass)
+}
 
-abstract class RDDProcessor {
+abstract class RDDProcessor extends LogTrait with Serializable {
 
+  @transient
   val convertor: Convertor
 
-  def processRDDStreaming(inputDStream: InputDStream[(String, String)],
+  def processRDDStreaming(rdd: RDD[(String, String)],
                           producerConf: Properties,
-                          topic: String): Unit = {
-    inputDStream.map(_._2)
-      .foreachRDD(rdd => {
-      transformRDD(rdd, convertor)
+                          outPutTopic: String): Unit = {
+
+    val updatedRdd = rdd.values
+    val conv = convertor
+    updatedRdd.persist()
+    val count = rdd.count()
+    if (count > 0) {
+      transformRDD(updatedRdd, conv)
         .writeToKafka(producerConf,
-          (x: UserModCommand) => new KeyedMessage[String, UserModCommand](topic, x))
-    })
+          (x: UserModCommand) => {
+            new KeyedMessage[String, String](outPutTopic, x.toString)
+          })
+    }
+    updatedRdd.unpersist()
   }
+
+
 
   def transformRDD(input: RDD[String], conv: Convertor): RDD[UserModCommand] = {
     input
