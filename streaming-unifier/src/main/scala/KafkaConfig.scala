@@ -2,6 +2,7 @@ import java.util.Properties
 
 object KafkaConfig {
 
+
   type KafkaParams = Map[String, String]
 
   def defaultConfig(brokerList: String): KafkaParams = {

@@ -3,6 +3,8 @@ import java.util.Properties
 import KafkaConfig._
 import kafka.producer.KeyedMessage
 import org.apache.spark.rdd.RDD
+import com.twitter.bijection.Injection;
+import com.twitter.bijection.avro.GenericAvroCodecs;
 import org.cloudera.spark.streaming.kafka.KafkaWriter._
 import org.slf4j.LoggerFactory
 import utils.{Convertor, UserModCommand}
