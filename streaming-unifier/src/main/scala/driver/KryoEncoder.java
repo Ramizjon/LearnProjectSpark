@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
 
- class KryoEncoder<T> extends Kryo implements kafka.serializer.Encoder<T> {
+ public class KryoEncoder<T> extends Kryo implements kafka.serializer.Encoder<T> {
 
     @SuppressWarnings("unchecked")
     public KryoEncoder() {

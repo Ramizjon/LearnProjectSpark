@@ -17,5 +17,5 @@ trait OutputGenerator {
     sb.toString
   }
 
-  protected def generateData(): String
+  def generateData(): String
 }

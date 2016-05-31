@@ -1,5 +1,6 @@
 package facebookprovider
-import utils.{Convertor, UserModCommand}
+
+import utils.{UserModCommand, Convertor}
 
 
 object FacebookConvertor extends Convertor {

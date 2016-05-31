@@ -6,7 +6,7 @@ import kafka.producer.KeyedMessage
 import org.apache.spark.rdd.RDD
 import org.cloudera.spark.streaming.kafka.KafkaWriter._
 import org.slf4j.LoggerFactory
-import utils.{Convertor, UserModCommand, UMCKryoEncoder}
+import utils.{UserModCommand, Convertor, UMCKryoEncoder}
 
 trait LogTrait {
   protected lazy val logger = LoggerFactory.getLogger(getClass)
