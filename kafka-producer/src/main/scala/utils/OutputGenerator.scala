@@ -3,12 +3,12 @@ import scala.util.Random
 
 trait OutputGenerator {
 
-  def randomAlpha(length: Int): String = {
+  protected def randomAlpha(length: Int): String = {
     val chars = ('a' to 'z') ++ ('A' to 'Z')
     randomStringFromCharList(length, chars)
   }
 
-  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = {
+  private def randomStringFromCharList(length: Int, chars: Seq[Char]): String = {
     val sb = new StringBuilder
     for (i <- 1 to length) {
       val randomNum = Random.nextInt(chars.length)
@@ -17,5 +17,5 @@ trait OutputGenerator {
     sb.toString
   }
 
-  def generateData(): String
+  protected def generateData(): String
 }

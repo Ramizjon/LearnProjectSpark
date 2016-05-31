@@ -1,13 +1,12 @@
+package driver
+
 import java.util.Properties
 
-import KafkaConfig._
 import kafka.producer.KeyedMessage
 import org.apache.spark.rdd.RDD
-import com.twitter.bijection.Injection;
-import com.twitter.bijection.avro.GenericAvroCodecs;
 import org.cloudera.spark.streaming.kafka.KafkaWriter._
 import org.slf4j.LoggerFactory
-import utils.{Convertor, UserModCommand}
+import utils.{Convertor, UserModCommand, UMCKryoEncoder}
 
 trait LogTrait {
   protected lazy val logger = LoggerFactory.getLogger(getClass)
@@ -30,13 +29,11 @@ abstract class RDDProcessor extends LogTrait with Serializable {
       transformRDD(updatedRdd, conv)
         .writeToKafka(producerConf,
           (x: UserModCommand) => {
-            new KeyedMessage[String, String](outPutTopic, x.toString)
+            new KeyedMessage[String, Array[Byte]](outPutTopic, UMCKryoEncoder.toBytes(x))
           })
     }
     updatedRdd.unpersist()
   }
-
-
 
   def transformRDD(input: RDD[String], conv: Convertor): RDD[UserModCommand] = {
     input

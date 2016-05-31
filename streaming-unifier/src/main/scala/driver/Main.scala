@@ -1,4 +1,6 @@
-import StreamingAppContext.AppConfig
+package driver
+
+import driver.StreamingAppContext.AppConfig
 
 object Main extends App {
 

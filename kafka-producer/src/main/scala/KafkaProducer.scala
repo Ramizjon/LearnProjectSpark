@@ -12,7 +12,7 @@ object KafkaProducer {
   val props = initProperties()
 
 
-  def initProperties(): Properties = {
+  private def initProperties(): Properties = {
     val properties = new Properties()
     properties.put("metadata.broker.list", brokers)
     properties.put("serializer.class", "kafka.serializer.StringEncoder")
@@ -33,7 +33,7 @@ object KafkaProducer {
     }
   }
 
-  def getGenerator(providerType: String): OutputGenerator = providerType match {
+  private def getGenerator(providerType: String): OutputGenerator = providerType match {
     case "facebook" => FacebookOutputGenerator
     case "nexus" => NexusOutputGenerator
     case default => throw new IllegalArgumentException

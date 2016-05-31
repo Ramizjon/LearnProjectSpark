@@ -46,8 +46,7 @@ allprojects {
         scalaTestVersion = "3.0.0-M16-SNAP6"
         sparkTestingBaseVersion = "1.4.0_1.4.1_0.1.2"
         scalaStyleVersion = "0.8.2"
-        sparkKafkaWriterVersion = "0.1.0"
-        bijectionAvroVersion = "0.9.2"
+        cryoVersion = "2.24.0"
     }
 
     dependencies {
@@ -62,8 +61,8 @@ allprojects {
         //compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
         compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
         compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
-        compile "org.cloudera.spark.streaming.kafka:spark-kafka-writer:${sparkKafkaWriterVersion}"
-        compile "com.twitter:bijection-avro_${scalaLibVersion}:${bijectionAvroVersion}"
+        compile "com.esotericsoftware.kryo:kryo:${cryoVersion}"
+
     }
 
     task wrapper(type: Wrapper) {
