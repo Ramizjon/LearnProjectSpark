@@ -1,5 +1,5 @@
 package utils
 
-trait Convertor extends Serializable{
-  def convert (text: String): List[UserModCommand]
+trait Convertor extends Serializable {
+  def convert(text: String): List[UserModCommand]
 }

@@ -20,15 +20,13 @@ scalaStyle {
     verbose = false
 }
 
+
 allprojects {
     project.group = 'com.ramiz'
 
     apply plugin: 'scala'
     apply plugin: 'idea'
     apply plugin: 'eu.appsatori.fatjar'
-
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
 
     configurations {
         provided
@@ -61,7 +59,6 @@ allprojects {
         //compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
         compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
         compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
-        compile "com.esotericsoftware.kryo:kryo:${cryoVersion}"
 
     }
 
@@ -78,6 +75,8 @@ allprojects {
 
     tasks.withType(ScalaCompile) {
         scalaCompileOptions.useAnt = false
+        sourceCompatibility = "1.7"
+        targetCompatibility = "1.7"
     }
 }
 

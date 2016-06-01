@@ -15,5 +15,4 @@ object NexusOutputGenerator extends OutputGenerator {
     val timestamp = Random.nextInt(90) + ":" + Random.nextInt(90) + ":" + Random.nextInt(90)
     timestamp + "," + userId + "," + command + "," + segmentsList
   }
-
 }

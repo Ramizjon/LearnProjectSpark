@@ -3,7 +3,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SQLContext
 
 
-import utils.{Convertor, UserModCommand}
+import utils.{RDDTransformer, Convertor, UserModCommand}
 
 abstract class RDDProcessor {
 
@@ -16,7 +16,7 @@ abstract class RDDProcessor {
 
     val input = sc.textFile(inputPath)
     val conv = convertor
-    val transformedRDD = transformRDD(input,conv)
+    val transformedRDD = RDDTransformer.transformRDD(input,conv)
 
     val umcDF = transformedRDD.toDF()
     umcDF.write.parquet(outputPath)
@@ -24,9 +24,4 @@ abstract class RDDProcessor {
     transformedRDD
   }
 
-  def transformRDD(input: RDD[String], conv: Convertor): RDD[UserModCommand] = {
-     input
-       .map(line => conv.convert(line))
-       .flatMap(identity)
-  }
 }

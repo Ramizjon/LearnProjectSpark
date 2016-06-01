@@ -1,9 +1,9 @@
 import scala.io.Source
 
-object Main extends App{
+object Main extends App {
 
-  case class AppConfig (topic: String = "",
-                        providerMode: String = "")
+  case class AppConfig(topic: String = "",
+                       providerMode: String = "")
 
   val parser = new scopt.OptionParser[AppConfig]("unifier") {
     opt[String]('t', "topic").required().text("topic specification is required")
@@ -14,7 +14,7 @@ object Main extends App{
 
   parser.parse(args, AppConfig()) match {
     case Some(config) => {
-        KafkaProducer.produceMessages(config.topic, config.providerMode)
+      KafkaProducer.produceMessages(config.topic, config.providerMode)
     }
 
     case None => {
@@ -22,6 +22,4 @@ object Main extends App{
       System.exit(1)
     }
   }
-
-
 }

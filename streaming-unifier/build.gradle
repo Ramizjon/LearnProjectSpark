@@ -15,11 +15,8 @@ repositories {
     }
 }
 
-
-dependencies {
-    compile files('referencedLibraries/spark-kafka-writer-0.1.1-SNAPSHOT.jar')
-}
-
 dependencies {
     compile project(':common')
+    compile "com.esotericsoftware.kryo:kryo:${cryoVersion}"
+    compile files('referencedLibraries/spark-kafka-writer-0.1.1-SNAPSHOT.jar')
 }

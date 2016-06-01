@@ -34,5 +34,4 @@ object NexusConvertorTest extends Properties("UserModCommand") {
 
         NexusConvertor.convert(complexInput).last == umcGens._1
     }
-
 }
