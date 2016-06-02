@@ -10,5 +10,5 @@ scala:
 before_install:
   - chmod +x gradlew
 
-  install:
+install:
   - travis_wait
