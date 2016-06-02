@@ -1,10 +1,7 @@
-import java.io.Serializable
-
 import facebookprovider.FacebookConvertor
 import nexusprovider.NexusConvertor
 import org.apache.spark.{SparkConf, SparkContext}
 import utils.Convertor
-
 
 
 object AppContext {

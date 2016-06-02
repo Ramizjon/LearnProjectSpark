@@ -1,11 +1,16 @@
 import facebookprovider.FacebookConvertor
-import org.scalacheck.Prop.forAll
-import org.scalacheck.{Gen, _}
+import org.junit.runner.RunWith
+import org.scalacheck.Gen
+import org.scalatest._
+import org.scalatest.junit.JUnitRunner
+import org.scalatest.prop.PropertyChecks
 import utils.UserModCommand
 
 import scala.collection.Map
 
-object FacebookConvertorTest extends Properties("UserModCommand") {
+
+@RunWith(classOf[JUnitRunner])
+class FacebookConvertorTest extends PropSpec with PropertyChecks with Matchers {
 
   val strGen = (n: Int) => Gen.listOfN(n, Gen.alphaChar).map(_.mkString)
   val stringLength = 6
@@ -15,16 +20,16 @@ object FacebookConvertorTest extends Properties("UserModCommand") {
     c2 <- strGen(stringLength)
     c3 <- strGen(stringLength)
     c4 <- strGen(stringLength)
-  } yield List(c1,c2,c3,c4).mkString("/")
+  } yield List(c1, c2, c3, c4).mkString("/")
 
-  def mapGen (timestamp: String): Gen[scala.Predef.Map[String,String]] = for {
+  def mapGen(timestamp: String): Gen[scala.Predef.Map[String, String]] = for {
     k1 <- strGen(stringLength)
     k2 <- strGen(stringLength)
     k3 <- strGen(stringLength)
     v1 <- strGen(stringLength)
-  } yield scala.Predef.Map (k1->timestamp,k2->timestamp,k3->timestamp)
+  } yield scala.Predef.Map(k1 -> timestamp, k2 -> timestamp, k3 -> timestamp)
 
-  val umcsGens: Gen[(List[(UserModCommand, Map[String, String])],String)] =
+  val umcsGens: Gen[(List[(UserModCommand, Map[String, String])], String)] =
     for {
       userId <- strGen(2)
       command1 <- Gen.const("add")
@@ -38,24 +43,27 @@ object FacebookConvertorTest extends Properties("UserModCommand") {
       segmentTimestamps2 <- mapGen(timestamp.toString)
 
     } yield {
-      List(UserModCommand (userId, command1, segmentTimestamps1)
+      List(UserModCommand(userId, command1, segmentTimestamps1)
         -> segmentTimestamps1,
-        UserModCommand (userId, command2, segmentTimestamps2)
-      ->segmentTimestamps2)->outputPath
+        UserModCommand(userId, command2, segmentTimestamps2)
+          -> segmentTimestamps2) -> outputPath
     }
 
-  property("Convert strings to umcs") = forAll(umcsGens) {
-    umcsGens =>
-      val userId1 = umcsGens._1.head._1.userId
-      val segments1 = umcsGens._1.head._2.keys.mkString(",")
-      val segments2 = umcsGens._1.head._2.keys.mkString(",")
+  property("Convert string to umcs") {
+    forAll(umcsGens) {
+      umcsGens =>
+        val userId1 = umcsGens._1.head._1.userId
+        val segments1 = umcsGens._1.head._2.keys.mkString(",")
+        val segments2 = umcsGens._1.head._2.keys.mkString(",")
 
-      val complexInput = s"$userId1/$segments1/$segments2::${umcsGens._2}"
+        val complexInput = s"$userId1/$segments1/$segments2::${umcsGens._2}"
 
-      val userModCommandList = umcsGens._1(0)._1 :: umcsGens._1(1)._1 :: Nil
+        val userModCommandList = umcsGens._1(0)._1 :: umcsGens._1(1)._1 :: Nil
 
-      //checks both UserModCommand classes with "add" and "remove" commands
-      FacebookConvertor.convert(complexInput) == userModCommandList
+        val convertedList = FacebookConvertor.convert(complexInput)
+
+        //checks both UserModCommand classes with "add" and "remove" commands
+        userModCommandList.head should be(convertedList.head)
+    }
   }
-
 }

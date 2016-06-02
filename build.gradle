@@ -33,6 +33,26 @@ allprojects {
         compile.extendsFrom provided
     }
 
+
+    sourceSets {
+        main {
+            scala {
+                srcDirs = ['src/main/scala']
+            }
+        }
+        test {
+            resources {
+                srcDirs = ['src/test/scala','it/scala']
+            }
+        }
+    }
+    
+    task testSpec(dependsOn: ['testClasses'], type: JavaExec) {
+        main = 'org.scalatest.tools.Runner'
+        args = ['-R', 'build/classes/test', '-o']
+        classpath = sourceSets.test.runtimeClasspath
+    }
+
     ext {
         scalaVersion = "2.10.6"
         scalaLibVersion = "2.10"
@@ -45,6 +65,7 @@ allprojects {
         sparkTestingBaseVersion = "1.4.0_1.4.1_0.1.2"
         scalaStyleVersion = "0.8.2"
         cryoVersion = "2.24.0"
+        jUnitVersion = "4.8.2"
     }
 
     dependencies {
@@ -54,12 +75,12 @@ allprojects {
         compile "org.apache.spark:spark-streaming-kafka_${scalaLibVersion}:${sparkVersion}"
         compile "com.github.scopt:scopt_${scalaLibVersion}:${scoptVersion}"
         compile "org.apache.spark:spark-sql_${scalaLibVersion}:${sparkSQLVersion}"
-        compile "org.scalatest:scalatest_${scalaLibVersion}:${scalaTestVersion}"
-        compile "org.scalacheck:scalacheck_${scalaLibVersion}:${scalacheckVersion}"
         //compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
         compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
         compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
-
+        testCompile "junit:junit:${jUnitVersion}"
+        testCompile "org.scalatest:scalatest_${scalaLibVersion}:${scalaTestVersion}"
+        testCompile "org.scalacheck:scalacheck_${scalaLibVersion}:${scalacheckVersion}"
     }
 
     task wrapper(type: Wrapper) {

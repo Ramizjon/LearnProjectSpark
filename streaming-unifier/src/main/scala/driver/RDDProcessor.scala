@@ -34,5 +34,4 @@ abstract class RDDProcessor extends LogTrait with Serializable {
     }
     updatedRdd.unpersist()
   }
-
 }

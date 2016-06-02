@@ -1,7 +1,7 @@
 
-
 jar {
     manifest {
         attributes 'Implementation-Title': 'common jar'
     }
 }
+
