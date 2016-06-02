@@ -1,6 +1,6 @@
 language: scala
 
-script: gradle test
+script: gradle testSpec
 
 notifications: never
 
