@@ -1,14 +1,15 @@
+import com.google.inject.matcher.Matchers
 import com.holdenkarau.spark.testing.SharedSparkContext
 import nexusprovider.NexusConvertor
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
+import org.scalatest.{FlatSpec, GivenWhenThen}
 import utils.{RDDTransformer, UserModCommand}
 
 @RunWith(classOf[JUnitRunner])
 class RDDTransformerTest extends FlatSpec with GivenWhenThen with SharedSparkContext with Matchers {
 
-  val rddProcessor =  RDDTransformer
+  val rddProcessor = new Object with RDDTransformer
   val timeStamps = "10:12:2016" :: "09:12:2016" :: Nil
   val expected = UserModCommand("11", "add", Map("click" -> timeStamps.head,
     "open_page" -> timeStamps.head, "generate_link" -> timeStamps.head

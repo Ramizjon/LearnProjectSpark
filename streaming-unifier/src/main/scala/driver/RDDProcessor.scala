@@ -12,7 +12,7 @@ trait LogTrait {
   protected lazy val logger = LoggerFactory.getLogger(getClass)
 }
 
-abstract class RDDProcessor extends LogTrait with Serializable {
+abstract class RDDProcessor extends LogTrait with RDDTransformer {
 
   @transient
   val convertor: Convertor
@@ -26,7 +26,7 @@ abstract class RDDProcessor extends LogTrait with Serializable {
     updatedRdd.persist()
     val count = rdd.count()
     if (count > 0) {
-      RDDTransformer.transformRDD(updatedRdd, conv)
+      transformRDD(updatedRdd, conv)
         .writeToKafka(producerConf,
           (x: UserModCommand) => {
             new KeyedMessage[String, Array[Byte]](outPutTopic, UMCKryoEncoder.toBytes(x))

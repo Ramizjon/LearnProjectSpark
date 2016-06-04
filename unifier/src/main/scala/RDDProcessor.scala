@@ -5,7 +5,7 @@ import org.apache.spark.sql.SQLContext
 
 import utils.{RDDTransformer, Convertor, UserModCommand}
 
-abstract class RDDProcessor {
+abstract class RDDProcessor extends RDDTransformer {
 
   val sc: SparkContext
   val convertor: Convertor
@@ -16,7 +16,7 @@ abstract class RDDProcessor {
 
     val input = sc.textFile(inputPath)
     val conv = convertor
-    val transformedRDD = RDDTransformer.transformRDD(input,conv)
+    val transformedRDD = transformRDD(input, conv)
 
     val umcDF = transformedRDD.toDF()
     umcDF.write.parquet(outputPath)
