@@ -14,7 +14,6 @@ trait LogTrait {
 
 abstract class RDDProcessor extends LogTrait with RDDTransformer {
 
-  @transient
   val convertor: Convertor
 
   def processRDDStreaming(rdd: RDD[(String, String)],
@@ -22,11 +21,10 @@ abstract class RDDProcessor extends LogTrait with RDDTransformer {
                           outPutTopic: String): Unit = {
 
     val updatedRdd = rdd.values
-    val conv = convertor
     updatedRdd.persist()
     val count = rdd.count()
     if (count > 0) {
-      transformRDD(updatedRdd, conv)
+      transformRDD(updatedRdd, convertor)
         .writeToKafka(producerConf,
           (x: UserModCommand) => {
             new KeyedMessage[String, Array[Byte]](outPutTopic, UMCKryoEncoder.toBytes(x))
@@ -35,3 +33,5 @@ abstract class RDDProcessor extends LogTrait with RDDTransformer {
     updatedRdd.unpersist()
   }
 }
+
+

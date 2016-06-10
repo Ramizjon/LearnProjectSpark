@@ -4,8 +4,9 @@ import org.apache.spark.rdd.RDD
 
 trait RDDTransformer {
   def transformRDD(input: RDD[String], conv: Convertor): RDD[UserModCommand] = {
+    val convertor = conv
     input
-      .map(line => conv.convert(line))
+      .map(convertor.convert(_))
       .flatMap(identity)
   }
 }
