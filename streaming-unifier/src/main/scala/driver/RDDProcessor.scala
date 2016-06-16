@@ -5,11 +5,13 @@ import java.util.Properties
 import kafka.producer.KeyedMessage
 import org.apache.spark.rdd.RDD
 import org.cloudera.spark.streaming.kafka.KafkaWriter._
-import org.slf4j.LoggerFactory
 import utils.{RDDTransformer, UserModCommand, Convertor, UMCKryoEncoder}
+import org.apache.logging.log4j.LogManager
 
 trait LogTrait {
-  protected lazy val logger = LoggerFactory.getLogger(getClass)
+  protected lazy val logger = LogManager.getLogger(getClass)
+  //protected lazy val logger = Logger(LoggerFactory.getLogger(getClass))
+  //protected lazy val logger = LoggerFactory.getLogger(getClass)
 }
 
 abstract class RDDProcessor extends LogTrait with RDDTransformer {
@@ -24,8 +26,8 @@ abstract class RDDProcessor extends LogTrait with RDDTransformer {
     updatedRdd.persist()
     val count = rdd.count()
     if (count > 0) {
-      transformRDD(updatedRdd, convertor)
-        .writeToKafka(producerConf,
+      val rdd = transformRDD(updatedRdd, convertor)
+        rdd.writeToKafka(producerConf,
           (x: UserModCommand) => {
             new KeyedMessage[String, Array[Byte]](outPutTopic, UMCKryoEncoder.toBytes(x))
           })

@@ -66,6 +66,10 @@ allprojects {
         scalaStyleVersion = "0.8.2"
         cryoVersion = "2.24.0"
         jUnitVersion = "4.8.2"
+        elasticSearchVersion = "2.3.2"
+        scalaLoggingVersion = "2.1.2"
+        //logbackVersion = "1.1.2"
+        logstashEncoderVersion = "4.5.1"
     }
 
     dependencies {
@@ -78,6 +82,17 @@ allprojects {
         //compile "org.scalastyle:scalastyle_${scalaLibVersion}:${scalaStyleVersion}"
         compile "com.holdenkarau:spark-testing-base_${scalaLibVersion}:${sparkVersion}_${sparkTestingBaseVersion}"
         compile "org.apache.hadoop:hadoop-client:${hadoopClientVersion}"
+        compile "org.elasticsearch:elasticsearch-spark_${scalaLibVersion}:${elasticSearchVersion}"
+        compile "com.typesafe.scala-logging:scala-logging-slf4j_${scalaLibVersion}:${scalaLoggingVersion}"
+        //compile "ch.qos.logback:logback-classic:${logbackVersion}"
+        //compile "net.logstash.logback:logstash-logback-encoder:${logstashEncoderVersion}"
+        compile "org.apache.logging.log4j:log4j-core:2.0.1"
+        compile "org.apache.logging.log4j:log4j-api:2.0.1"
+        compile "com.fasterxml.jackson.core:jackson-core:2.4.2"
+        compile "com.fasterxml.jackson.core:jackson-databind:2.4.2"
+        compile "com.fasterxml.jackson.core:jackson-annotations:2.4.2"
+
+
         testCompile "junit:junit:${jUnitVersion}"
         testCompile "org.scalatest:scalatest_${scalaLibVersion}:${scalaTestVersion}"
         testCompile "org.scalacheck:scalacheck_${scalaLibVersion}:${scalacheckVersion}"

@@ -16,6 +16,7 @@ object StreamingAppContext extends Serializable {
     val ret = new SparkConf()
       .setAppName("directkafkaunifier")
     ret.set("spark.serializer", classOf[org.apache.spark.serializer.KryoSerializer].getName)
+    ret.set("es.index.auto.create", "true")
     ret
   }
 
