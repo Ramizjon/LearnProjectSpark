@@ -4,8 +4,8 @@
 **/*.class
 **/*.yml
 **/*.gitkeep
-**/target
 **/.gradle
+**/target
 build
 .project
 .settings
@@ -15,8 +15,6 @@ build
 **/*.sh
 **/*.ipr
 **/*.iws
-gradlew.bat
 
- #Eclipse Core
- .project
+.project
 /bin/

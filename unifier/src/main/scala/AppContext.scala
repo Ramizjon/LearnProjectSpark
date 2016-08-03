@@ -1,5 +1,3 @@
-import java.io.Serializable
-
 import facebookprovider.FacebookConvertor
 import nexusprovider.NexusConvertor
 import org.apache.spark.{SparkConf, SparkContext}
@@ -35,8 +33,5 @@ object AppContext {
     params.foreach { case (k, v) =>
       new AppContext.RDDProcessorImpl(v, sparkContext).processRDD(k, config.outputPath + "/" + v)
     }
-
-
   }
-
 }

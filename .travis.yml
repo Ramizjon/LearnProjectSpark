@@ -1,8 +1,14 @@
 language: scala
 
-script: gradle test
+script: gradle testSpec
 
 notifications: never
 
 scala: 
-- 2.11.7
+- 2.10.6
+
+before_install:
+  - chmod +x gradlew
+
+install:
+  - travis_wait

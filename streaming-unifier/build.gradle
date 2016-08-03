@@ -1,0 +1,22 @@
+def mainClass = "Main"
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClass
+    }
+    from { (configurations.compile-configurations.provided).collect { it.isDirectory() ? it : zipTree(it)}}
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+    zip64 true
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile project(':common')
+    compile "com.esotericsoftware.kryo:kryo:${cryoVersion}"
+    compile files('referencedLibraries/spark-kafka-writer-0.1.1-SNAPSHOT.jar')
+}

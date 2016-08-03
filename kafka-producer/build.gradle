@@ -1,0 +1,15 @@
+def mainClass = "Main"
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClass
+    }
+    from { (configurations.compile-configurations.provided).collect { it.isDirectory() ? it : zipTree(it)}}
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+    zip64 true
+}
+
+dependencies {
+    compile project(':common')
+}
+
